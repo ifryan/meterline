@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-09
+
 ### Added
 
 - App icon.
@@ -22,14 +24,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
-- Background credential reads no longer show Keychain password prompts. They now read this app's items directly with interaction off, and ask you to reauthorize when that isn't possible.
+- Background reads of Meterline's own credentials disable Keychain interaction and request reauthorization when access is unavailable.
+- Standard editing shortcuts, including paste, now reach credential fields in connection sheets across providers.
+- Compact balances exclude absent countdowns from text fitting and share the same font ceiling as quotas, avoiding tiny or oversized values as pinned connections change. Compact USD/CNY balances show at most two decimal places.
+- Claude session reads are serialized through the system Keychain tool, allow time for authorization, and suppress repeated failed authorization requests until restart.
 
 ### Changed
 
 - Renamed the project from Codex Meter to Meterline. The first launch copies existing data and preferences and leaves the originals in place, and credentials move to `Meterline …` Keychain items as they are first read. See `docs/migration.md`.
 - Values saved to disk are now in English. The history database moves to version 3, rewriting billing event IDs so the next refresh does not count a bill twice.
 - The application uses a source/account collection instead of three dedicated AppDelegate client states.
-- Claude uses the non-inference usage path first; billed probes require an explicit per-connection opt-in.
+- Claude uses the non-inference usage path first; billed probes require an explicit per-connection opt-in. Meterline never automatically starts Claude Code or renews its session; unavailable or expired sessions require manual sign-in.
 - Local logs, external exports and organization daily bills are separate statistics datasets; billing uses UTC days and current credential scopes, while currencies and pricing origins remain distinct.
 - Legacy connection migration and expanded privacy/contribution documentation are included. Provider account verification remains pending.
 
@@ -56,5 +61,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Stop rendering data-read failures as a red 0% quota.
 - Use the actual display safe-area height instead of a fixed 32-point notch height.
 
-[Unreleased]: https://github.com/ifryan/meterline/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/ifryan/meterline/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/ifryan/meterline/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ifryan/meterline/releases/tag/v0.2.0
