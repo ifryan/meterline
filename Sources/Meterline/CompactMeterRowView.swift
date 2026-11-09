@@ -34,7 +34,7 @@ final class CompactMeterRowView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         let gap: CGFloat = timeText.isEmpty ? 0 : 8
-        var fontSize: CGFloat = 10.5
+        var fontSize: CGFloat = timeText.isEmpty ? 18 : 10.5
         var text = strings(size: fontSize)
         // Fit both dimensions so larger glyphs cannot cross row or camera boundaries.
         while fontSize > 5 && (max(text.0.size().height, text.1.size().height) > bounds.height

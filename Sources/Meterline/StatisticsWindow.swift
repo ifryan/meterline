@@ -6,7 +6,7 @@ import Charts
 @MainActor
 final class StatisticsWindow: NSWindowController {
     init(engine: MonitorEngine) {
-        let window = MonitorSettingsWindow(contentRect: NSRect(x: 0, y: 0, width: 1_020, height: 760),
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1_020, height: 760),
                               styleMask: [.titled, .closable, .resizable, .miniaturizable], backing: .buffered, defer: false)
         window.title = L("Meterline · Usage statistics")
         window.minSize = NSSize(width: 820, height: 600)

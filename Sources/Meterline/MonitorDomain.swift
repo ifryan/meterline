@@ -187,7 +187,7 @@ enum MonitorFormat {
         }
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = (unit == "USD" || unit == "CNY") ? 4 : compact ? 1 : (unit == "tokens" || unit == countUnit ? 0 : 4)
+        formatter.maximumFractionDigits = (unit == "USD" || unit == "CNY") ? (compact ? 2 : 4) : compact ? 1 : (unit == "tokens" || unit == countUnit ? 0 : 4)
         formatter.minimumFractionDigits = 0
         let text = formatter.string(from: scaled) ?? scaled.stringValue
         switch unit {

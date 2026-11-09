@@ -4,25 +4,9 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 @MainActor
-final class MonitorSettingsWindow: NSWindow {
-    override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command,
-           let editor = firstResponder as? NSTextView {
-            switch event.charactersIgnoringModifiers?.lowercased() {
-            case "v": editor.paste(nil); return true
-            case "a": editor.selectAll(nil); return true
-            case "z": editor.undoManager?.undo(); return true
-            default: break
-            }
-        }
-        return super.performKeyEquivalent(with: event)
-    }
-}
-
-@MainActor
 final class ConnectionsWindow: NSWindowController {
     init(engine: MonitorEngine) {
-        let window = MonitorSettingsWindow(contentRect: NSRect(x: 0, y: 0, width: 900, height: 650),
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 900, height: 650),
                               styleMask: [.titled, .closable, .resizable, .miniaturizable], backing: .buffered, defer: false)
         window.title = L("Meterline · Connections")
         window.minSize = NSSize(width: 760, height: 540)

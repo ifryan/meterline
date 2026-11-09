@@ -103,6 +103,7 @@
 "Connections…" = "连接设置…";
 "Connects to a running local Magpie HTTP API. Read-only, routing settings aren't changed" = "连接正在运行的本机 Magpie HTTP API；只读取，不修改路由配置";
 "Cookie header" = "Cookie 请求头";
+"Copy" = "复制";
 "Cost" = "费用";
 "Cost in export" = "导出记录费用";
 "Couldn't access the Keychain. Unlock it, or save the credentials again in Connections" = "无法访问钥匙串，请解锁或在连接设置中重新保存凭据";
@@ -142,6 +143,7 @@
 "Custom path (leave empty for the default location)" = "独立路径（留空使用默认位置）";
 "Custom query" = "自定义查询";
 "Custom templates" = "自定义模板";
+"Cut" = "剪切";
 "Daily" = "每日";
 "Data status" = "数据状态";
 "Data time" = "数据时间";
@@ -287,6 +289,7 @@
 "Organization usage" = "组织用量";
 "Organization usage (not split by model)" = "组织用量（未按模型拆分）";
 "Output price" = "输出单价";
+"Paste" = "粘贴";
 "Paste a JSON session bundle with devin_session_token, devin_auth1_token, devin_account_id, and devin_primary_org_id" = "请粘贴包含 devin_session_token、devin_auth1_token、devin_account_id、devin_primary_org_id 的 JSON 会话包";
 "Per month" = "月度";
 "Period" = "时间";
@@ -313,6 +316,7 @@
 "Reads the current Cursor app or CLI sign-in, or connects a cursor.com cookie" = "读取当前 Cursor 应用 / CLI 登录态，或连接 cursor.com Cookie";
 "Reauthorize saved credentials" = "重新授权已保存凭据";
 "Records" = "记录";
+"Redo" = "重做";
 "Refresh" = "刷新";
 "Refresh enabled connections" = "刷新已启用连接";
 "Refresh every %@ min" = "每 %@ 分钟刷新";
@@ -339,6 +343,7 @@
 "Saving runs a query right away. The result appears in the notch details." = "保存后将立即查询；连接结果显示在刘海明细中。";
 "Scale factor" = "缩放系数";
 "Search sources or accounts" = "搜索来源或账户";
+"Select All" = "全选";
 "Separate Google OAuth access token or credential file, kept apart from Gemini CLI accounts and quota" = "独立 Google OAuth Access Token / 凭据文件；保持与 Gemini CLI 的账户及额度分离";
 "Separate account file" = "独立账户文件";
 "Service URL" = "服务地址";
@@ -413,6 +418,7 @@
 "Turn on local logs, choose a CC Switch usage export, or add an OpenAI or Anthropic connection with organization billing access. Quota queries and usage statistics are independent." = "启用本地日志、为 CC Switch 选择用量导出，或添加具有组织账单权限的 OpenAI / Anthropic 连接。额度查询与用量统计相互独立。";
 "Type" = "类型";
 "Unattributed" = "未归属";
+"Undo" = "撤销";
 "Unit: USD / CNY / tokens / uses" = "单位：USD / CNY / tokens / uses";
 "Unknown" = "未知";
 "Unknown (--H)" = "未知（--H）";
