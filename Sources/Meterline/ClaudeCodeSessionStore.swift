@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-only
-import CryptoKit
 import Foundation
 
 /// Reads — never writes — the OAuth session Claude Code keeps in its own Keychain item.
 ///
-/// This is the fallback credential: the token lasts only ~8 hours and is renewed solely while the
-/// CLI runs, so it cannot be relied on alone. It is still worth having, because it carries the
-/// `user:profile` scope that `GET /api/oauth/usage` requires and a `claude setup-token` value does
-/// not, so it reaches a richer endpoint than the header channel.
+/// The profile-scoped token is used for the free usage endpoint. Meterline never launches
+/// Claude Code or renews this session; it picks up credentials when the user updates them.
 enum ClaudeCodeSessionStore {
     struct Session {
         let accessToken: String
@@ -42,10 +39,4 @@ enum ClaudeCodeSessionStore {
         )
     }
 
-    /// A digest of the stored item, used to tell whether the CLI rewrote it. Hashed rather than
-    /// compared directly so no token material is held in memory longer than the read itself.
-    static func tokenFingerprint() -> String? {
-        guard let data = rawItem() else { return nil }
-        return SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
-    }
 }
