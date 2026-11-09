@@ -51,7 +51,7 @@ Local log scanning covers Codex, Claude, Gemini CLI, OpenCode, and Pi. Kimi and 
 
 The project is pre-1.0, so configuration and UI may still change.
 
-- **Releases**: the latest pre-release is [v0.3.0-beta.2](https://github.com/ifryan/meterline/releases/tag/v0.3.0-beta.2), with a `.dmg`. It isn't notarized by Apple, so see Install below for the first launch. The final 0.3.0 hasn't been released yet.
+- **Releases**: the latest stable release is [v0.3.0](https://github.com/ifryan/meterline/releases/tag/v0.3.0), with a Universal 2 `.dmg` for Apple Silicon and Intel. See Install below for download and first-launch instructions.
 - **Automated checks**: CI runs `swift test` and a Universal 2 build on every push.
 - **Not done yet**: source-by-source verification with real accounts. Most of these APIs aren't stable public contracts, so parsing can break when a response changes. If that happens, please [open an issue](https://github.com/ifryan/meterline/issues).
 
