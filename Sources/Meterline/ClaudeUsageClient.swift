@@ -86,15 +86,11 @@ struct ClaudeUsageClient: Sendable {
 
     /// Reads `GET /api/oauth/usage` using Claude Code's own profile-scoped session token.
     private func fetchFromUsageEndpoint() async throws -> ClaudeUsageSnapshot {
-        var session = ClaudeCodeSessionStore.read()
-        if session == nil || session?.isExpired == true {
-            // Let the CLI rewrite its own Keychain item rather than racing its token rotation.
-            if ClaudeStatusRefresher.refresh() {
-                session = ClaudeCodeSessionStore.read()
-            }
-        }
-        guard let session, !session.isExpired else {
+        guard let session = ClaudeCodeSessionStore.read() else {
             throw MeterError.claudeRequestFailed(L("Claude Code session token is unavailable"))
+        }
+        guard !session.isExpired else {
+            throw MeterError.claudeRequestFailed(L("The local OAuth session has expired. Sign in again with the original tool, or reconnect the account"))
         }
 
         var request = URLRequest(url: Self.usageURL)

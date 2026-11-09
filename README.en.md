@@ -86,6 +86,8 @@ Once it works, drag the app to `/Applications` and turn on **Launch at login** i
 
 The default build is ad-hoc signed and meant for local use. A rebuild may change the app's identity. If the Keychain then refuses saved credentials, reauthorize them in the connection editor.
 
+Claude sessions are read through the system `/usr/bin/security` tool, allowing Keychain authorization when first needed. Choosing **Always Allow** can reduce repeated authorization on later reads. Concurrent reads are serialized; a denied or timed-out request is not repeated for the same credential until the app restarts. Meterline never starts Claude Code or renews its session. An expired session asks you to sign in manually, and later refreshes read the updated credentials. Persistent authorization still depends on the item's access controls. Distributed releases should keep the same developer signing identity.
+
 Build options:
 
 ```sh

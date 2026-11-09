@@ -154,7 +154,7 @@ final class AccountSecrets: @unchecked Sendable {
     }
 }
 
-/// Reads this app's own Keychain items. A background read must never show a password prompt, so it
+/// Reads Keychain items. A background read must never show a password prompt, so it
 /// asks the Keychain directly with interaction turned off and reports `.blocked` instead. Going through
 /// `/usr/bin/security` can't promise that: items this app creates aren't in that tool's partition, so
 /// it prompts even when the item's ACL lists it.

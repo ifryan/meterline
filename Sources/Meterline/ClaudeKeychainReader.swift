@@ -7,6 +7,14 @@ import Security
 /// Unlike this app's ad-hoc signature, its identity survives Meter rebuilds.
 /// Secrets travel only through a pipe; never through arguments, files, or logs.
 enum ClaudeKeychainReader {
+    private struct Item: Hashable {
+        let service: String
+        let account: String?
+    }
+
+    private static let lock = NSLock()
+    private static var blockedItems = Set<Item>()
+
     static var isDefaultKeychainUnlocked: Bool {
         var status: SecKeychainStatus = 0
         return SecKeychainGetStatus(nil, &status) == errSecSuccess
@@ -14,8 +22,11 @@ enum ClaudeKeychainReader {
     }
 
     static func read(service: String, account: String? = nil) -> Data? {
-        // Do not ask the system tool to unlock the user's login keychain.
-        guard isDefaultKeychainUnlocked else { return nil }
+        // Serialize reads so simultaneous refreshes cannot stack authorization dialogs.
+        lock.lock()
+        defer { lock.unlock() }
+        let item = Item(service: service, account: account)
+        guard !blockedItems.contains(item), isDefaultKeychainUnlocked else { return nil }
 
         let process = Process()
         let output = Pipe()
@@ -42,7 +53,7 @@ enum ClaudeKeychainReader {
         let timeout = DispatchWorkItem {
             if process.isRunning { kill(process.processIdentifier, SIGKILL) }
         }
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 5, execute: timeout)
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 60, execute: timeout)
         defer {
             timeout.cancel()
             if process.isRunning { kill(process.processIdentifier, SIGKILL) }
@@ -57,7 +68,15 @@ enum ClaudeKeychainReader {
             guard data.count <= 64 * 1_024 else { return nil }
         }
         process.waitUntilExit()
-        guard process.terminationReason == .exit, process.terminationStatus == 0 else { return nil }
+        guard process.terminationReason == .exit, process.terminationStatus == 0 else {
+            // A denied or timed-out request stays quiet until restart. Missing items may appear
+            // after the user signs in, so they remain eligible for background reads.
+            if process.terminationReason != .exit
+                || process.terminationStatus != Int32(UInt8(truncatingIfNeeded: errSecItemNotFound)) {
+                blockedItems.insert(item)
+            }
+            return nil
+        }
 
         // `security -w` appends a newline to the stored value.
         if data.last == 0x0A { data.removeLast() }

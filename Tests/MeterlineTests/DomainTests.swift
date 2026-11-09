@@ -222,32 +222,6 @@ final class DomainTests: XCTestCase {
         XCTAssertNil(snapshot.sevenDay?.resetsAt)
     }
 
-    func testTrustedWorkingDirectoryPrefersAnAcceptedProject() throws {
-        let configURL = URL(fileURLWithPath: NSTemporaryDirectory())
-            .appendingPathComponent("claude-config-\(UUID().uuidString).json")
-        defer { try? FileManager.default.removeItem(at: configURL) }
-        // Only an accepted, still-existing directory qualifies; NSTemporaryDirectory() always does.
-        let accepted = NSTemporaryDirectory()
-        let config: [String: Any] = ["projects": [
-            accepted: ["hasTrustDialogAccepted": true],
-            "/nonexistent/path": ["hasTrustDialogAccepted": true],
-            "/Users": ["hasTrustDialogAccepted": false]
-        ]]
-        try JSONSerialization.data(withJSONObject: config).write(to: configURL)
-
-        let resolved = ClaudeStatusRefresher.trustedWorkingDirectory(configPath: configURL.path)
-        XCTAssertEqual(resolved?.path, URL(fileURLWithPath: accepted).path)
-    }
-
-    func testTrustedWorkingDirectoryIsNilWhenNothingIsTrusted() throws {
-        let configURL = URL(fileURLWithPath: NSTemporaryDirectory())
-            .appendingPathComponent("claude-config-\(UUID().uuidString).json")
-        defer { try? FileManager.default.removeItem(at: configURL) }
-        let config: [String: Any] = ["projects": ["/Users": ["hasTrustDialogAccepted": false]]]
-        try JSONSerialization.data(withJSONObject: config).write(to: configURL)
-        XCTAssertNil(ClaudeStatusRefresher.trustedWorkingDirectory(configPath: configURL.path))
-    }
-
     @MainActor
     func testRefreshingStateReplacesPercentagesPerSide() {
         XCTAssertEqual(
